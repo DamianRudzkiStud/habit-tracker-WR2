@@ -15,9 +15,13 @@ WR2/
 │   ├── models.py            # modele User / Habit / HabitLog
 │   ├── seed.py              # generowanie danych demo
 │   ├── requirements.txt     # zależności Pythona
+│   ├── tests/               # testy jednostkowe i API (pytest)
 │   └── routers/             # auth, habits, tracking, stats
 ├── frontend/                # aplikacja React (Vite)
 │   └── src/
+│       └── __tests__/       # smoke testy GUI (Vitest)
+├── docs/
+│   └── QA.md                # plan i dokumentacja testów
 ├── Instrukcja ustawienia projektu.docx
 └── README.md
 ```
@@ -66,6 +70,27 @@ ustawiony w `frontend/src/api/axios.js`).
 
 > Uwaga: żeby aplikacja działała, **oba** serwery (backend i frontend) muszą
 > być uruchomione jednocześnie.
+
+## Testy
+
+Backend (pytest):
+
+```bash
+cd backend
+source .venv/bin/activate
+pip install -r requirements-dev.txt
+pytest
+```
+
+Frontend (Vitest):
+
+```bash
+cd frontend
+npm test
+```
+
+Opis poziomów testów i checklista testów manualnych znajdują się w
+[docs/QA.md](docs/QA.md).
 
 ## Przegląd endpointów
 

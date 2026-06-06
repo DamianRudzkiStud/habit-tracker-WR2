@@ -11,6 +11,21 @@ router = APIRouter(
 )
 
 
+def calculate_current_streak(completed_dates: set, today: date) -> int:
+    # Seria liczona wstecz od dzisiaj; jeśli dziś brak wpisu, ale jest wczoraj, seria trwa
+    check_date = today
+    if check_date not in completed_dates:
+        check_date -= timedelta(days=1)
+        if check_date not in completed_dates:
+            return 0
+
+    streak = 0
+    while check_date in completed_dates:
+        streak += 1
+        check_date -= timedelta(days=1)
+    return streak
+
+
 @router.post("/{habit_id}/complete")
 def complete_habit_today(
         habit_id: int,
@@ -55,16 +70,6 @@ def get_habit_streak(
         return {"habit_name": db_habit.name, "current_streak": 0}
 
     completed_dates = {log.date_completed for log in logs}
-    streak = 0
-    check_date = date.today()
-
-    if check_date not in completed_dates:
-        check_date -= timedelta(days=1)
-        if check_date not in completed_dates:
-            return {"habit_name": db_habit.name, "current_streak": 0}
-
-    while check_date in completed_dates:
-        streak += 1
-        check_date -= timedelta(days=1)
+    streak = calculate_current_streak(completed_dates, date.today())
 
     return {"habit_name": db_habit.name, "current_streak": streak}

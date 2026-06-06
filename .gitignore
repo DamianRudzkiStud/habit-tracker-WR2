@@ -3,6 +3,7 @@ backend/.venv/
 **/__pycache__/
 *.pyc
 backend/database.db
+.pytest_cache/
 
 # Node / frontend
 frontend/node_modules/
